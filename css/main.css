@@ -7,6 +7,7 @@ table {
     height: 45rem;
     width: 45rem;
     align-self: center;
+    margin-bottom: 1rem;
 }
 
 td, tr {
@@ -37,7 +38,35 @@ h1{
     background: #632618;
 }
 
+.game-info-label{
+    margin-right: 1rem;
+    margin-left: 1rem;
+    color: white;
+    line-height: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.game-info-text{
+    height: 2rem;
+    width: 5rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+#reset{
+    margin-right:1rem;
+    font-size:1rem;
+}
+
 #div-btns{
+    display:flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+}
+
+#div-score-etc{
     display:flex;
     justify-content: center;
     padding-bottom: 1rem;

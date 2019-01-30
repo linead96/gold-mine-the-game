@@ -18,7 +18,7 @@
                     <option value="5">5 x 5</option>
                     <option value="6">6 x 6</option>
                     <option value="7">7 x 7</option>
-                    <option value="8">8 x 8</option>
+                    <option value="8" selected>8 x 8</option>
                     <option value="9">9 x 9</option>
                     <option value="10">10 x 10</option>
                     <option value="11">11 x 11</option>
@@ -27,6 +27,12 @@
         </div>
         <table>
         </table>
+        <div id="div-score-etc">
+            <label for="score" class="game-info-label">Score</label>
+            <input class="game-info-text" type="text" id="score" value="0" readonly>
+            <label for="lifeleft" class="game-info-label">Life Left</label>
+            <input class="game-info-text" type="text" id="lifeleft" value="0" readonly>
+        </div>
     </div>
     <script src="js/main.js"></script>
 </body>
