@@ -31,9 +31,9 @@ const generateRandomBombBoxIndex = () => {
         while(randomBombBoxIndex.includes(randomNum) || randomNum < 0);
         randomBombBoxIndex.push(randomNum);
     }
-    randomBombBoxIndex.forEach((item,index) => {
-     console.log("bomb",index,item);
-    });
+    // randomBombBoxIndex.forEach((item,index) => {
+    //  console.log("bomb",index,item);
+    // });
     
 }
 
@@ -46,9 +46,9 @@ const generateRandomGoldBoxIndex = () => {
         while(randomBombBoxIndex.includes(randomNum) || randomGoldBoxIndex.includes(randomNum) || randomNum < 0);
         randomGoldBoxIndex.push(randomNum);
     }
-    randomGoldBoxIndex.forEach((item,index) => {
-        console.log("gold",index,item);
-    });
+    // randomGoldBoxIndex.forEach((item,index) => {
+    //     console.log("gold",index,item);
+    // });
 }
 
 const addEventToTds = () => {
@@ -112,10 +112,3 @@ const resetAll = () => {
 
 resetAll();
 addEventResetBtn();
-
-// randomBombBoxIndex.forEach(item => {
-//     console.log(item);
-// })
-// randomGoldBoxIndex.forEach(item => {
-//     console.log(item);
-// })
