@@ -5,67 +5,61 @@ let boxDimension = document.querySelector("select");
 let scoreOutput = document.querySelector("#score");
 let lifeLeftOutput = document.querySelector("#lifeleft");
 
-let randomBombBoxIndex = [];
-let randomGoldBoxIndex = [];
-let bombPicked = 0;
-let goldPicked = 0;
-let numOfBoxes = 8;
-let numOfBombAndGold = 0;
+let gameInfo = {
+    randomBombBoxIndex: [],
+    randomGoldBoxIndex: [],
+    bombPicked: 0,
+    goldPicked: 0,
+    numOfBoxes: 8,
+};
 
 const generateBoxes = () => {
     table.innerHTML = "";
-    for(let i = 0 ; i < numOfBoxes; i++){
+    for(let i = 0 ; i < gameInfo.numOfBoxes; i++){
         let row = table.insertRow(0);
-        for(let k = 0 ; k < numOfBoxes; k++){
+        for(let k = 0 ; k < gameInfo.numOfBoxes; k++){
             row.insertCell(k);
         }
     }
 }
 
 const generateRandomBombBoxIndex = () => {
-    for(let i = 0; i < numOfBoxes ; i++){
+    for(let i = 0; i < gameInfo.numOfBoxes ; i++){
         let randomNum = -1;
         do{
-            randomNum = Math.round(Math.random()*(numOfBoxes*numOfBoxes)-1,2);
+            randomNum = Math.round(Math.random()*(gameInfo.numOfBoxes*gameInfo.numOfBoxes)-1,2);
         }
-        while(randomBombBoxIndex.includes(randomNum) || randomNum < 0);
-        randomBombBoxIndex.push(randomNum);
+        while(gameInfo.randomBombBoxIndex.includes(randomNum) || randomNum < 0);
+        gameInfo.randomBombBoxIndex.push(randomNum);
     }
-    // randomBombBoxIndex.forEach((item,index) => {
-    //  console.log("bomb",index,item);
-    // });
-    
 }
 
 const generateRandomGoldBoxIndex = () => {
-    for(let i = 0; i < numOfBoxes ; i++){
+    for(let i = 0; i < gameInfo.numOfBoxes ; i++){
         let randomNum 
         do{
-            randomNum = Math.round(Math.random()*(numOfBoxes*numOfBoxes)-1,2);
+            randomNum = Math.round(Math.random()*(gameInfo.numOfBoxes*gameInfo.numOfBoxes)-1,2);
         }
-        while(randomBombBoxIndex.includes(randomNum) || randomGoldBoxIndex.includes(randomNum) || randomNum < 0);
-        randomGoldBoxIndex.push(randomNum);
+        while(gameInfo.randomBombBoxIndex.includes(randomNum) || gameInfo.randomGoldBoxIndex.includes(randomNum) || randomNum < 0);
+        gameInfo.randomGoldBoxIndex.push(randomNum);
     }
-    // randomGoldBoxIndex.forEach((item,index) => {
-    //     console.log("gold",index,item);
-    // });
 }
 
 const addEventToTds = () => {
     tds.forEach((element, index) => {
     element.addEventListener("click", ()=>{
-        if(randomBombBoxIndex.includes(index)){
+        if(gameInfo.randomBombBoxIndex.includes(index)){
             element.classList.add("bomb");
-            bombPicked++; 
-            lifeLeftOutput.value = 3-bombPicked;
-        }else if(randomGoldBoxIndex.includes(index)){
+            gameInfo.bombPicked++; 
+            lifeLeftOutput.value = 3-gameInfo.bombPicked;
+        }else if(gameInfo.randomGoldBoxIndex.includes(index)){
             element.classList.add("gold");
-            goldPicked++;
-            scoreOutput.value = goldPicked;
+            gameInfo.goldPicked++;
+            scoreOutput.value = gameInfo.goldPicked;
         }else{
             element.classList.add("soil");
         }
-        if(bombPicked === 3){
+        if(gameInfo.bombPicked === 3){
             tds.forEach((element, index) => {
                 element.className = "";
                 element.classList.add("bomb");
@@ -84,31 +78,33 @@ const addEventResetBtn = () => {
     });
 }
 
-const changeBoxDimension = () => {
-    numOfBoxes = document.querySelector("select").value;
-    resetAll();
-}
-
-const resetValues = () => {
+const resetTds = () => {
     tds = document.querySelectorAll("td");
     tds.forEach((element, index) => {
         element.className = "";
     });
-    randomBombBoxIndex = [];
-    randomGoldBoxIndex = [];
-    bombPicked = 0;
-    goldPicked = 0;
-    scoreOutput.value = goldPicked;
-    lifeLeftOutput.value = 3-bombPicked;
+}
+
+const resetGameInfo = ()=> {
+    gameInfo = {
+        randomBombBoxIndex: [],
+        randomGoldBoxIndex: [],
+        bombPicked: 0,
+        goldPicked: 0,
+        numOfBoxes: document.querySelector("select").value,
+    };
+    scoreOutput.value = 0;
+    lifeLeftOutput.value = 3;
 }
 
 const resetAll = () => {
+    resetGameInfo();
     generateBoxes();
-    resetValues();
+    resetTds();
     generateRandomBombBoxIndex();
     generateRandomGoldBoxIndex();
     addEventToTds();
+    addEventResetBtn();
 }
 
 resetAll();
-addEventResetBtn();
