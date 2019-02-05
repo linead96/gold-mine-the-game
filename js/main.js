@@ -8,8 +8,9 @@ let lifeLeftOutput = document.querySelector("#lifeleft");
 let gameInfo = {
     randomBombBoxIndex: [],
     randomGoldBoxIndex: [],
+    randomDiamondBoxIndex: [],
     bombPicked: 0,
-    goldPicked: 0,
+    score: 0,
     numOfBoxes: 8,
 };
 
@@ -35,13 +36,24 @@ const generateRandomBombBoxIndex = () => {
 }
 
 const generateRandomGoldBoxIndex = () => {
-    for(let i = 0; i < gameInfo.numOfBoxes ; i++){
+    for(let i = 0; i < gameInfo.numOfBoxes * 0.80; i++){
         let randomNum 
         do{
             randomNum = Math.round(Math.random()*(gameInfo.numOfBoxes*gameInfo.numOfBoxes)-1,2);
         }
         while(gameInfo.randomBombBoxIndex.includes(randomNum) || gameInfo.randomGoldBoxIndex.includes(randomNum) || randomNum < 0);
         gameInfo.randomGoldBoxIndex.push(randomNum);
+    }
+}
+
+const generateRandomDiamondBoxIndex = () => {
+    for(let i = 0; i < gameInfo.numOfBoxes * 0.20 ; i++){
+        let randomNum 
+        do{
+            randomNum = Math.round(Math.random()*(gameInfo.numOfBoxes*gameInfo.numOfBoxes)-1,2);
+        }
+        while(gameInfo.randomBombBoxIndex.includes(randomNum) || gameInfo.randomGoldBoxIndex.includes(randomNum) || gameInfo.randomDiamondBoxIndex.includes(randomNum) || randomNum < 0);
+        gameInfo.randomDiamondBoxIndex.push(randomNum);
     }
 }
 
@@ -54,8 +66,12 @@ const addEventToTds = () => {
             lifeLeftOutput.value = 3-gameInfo.bombPicked;
         }else if(gameInfo.randomGoldBoxIndex.includes(index)){
             element.classList.add("gold");
-            gameInfo.goldPicked++;
-            scoreOutput.value = gameInfo.goldPicked;
+            gameInfo.score++;
+            scoreOutput.value = gameInfo.score;
+        }else if(gameInfo.randomDiamondBoxIndex.includes(index)){
+            element.classList.add("diamond");
+            gameInfo.score+=3;
+            scoreOutput.value = gameInfo.score;
         }else{
             element.classList.add("soil");
         }
@@ -89,8 +105,9 @@ const resetGameInfo = ()=> {
     gameInfo = {
         randomBombBoxIndex: [],
         randomGoldBoxIndex: [],
+        randomDiamondBoxIndex: [],
         bombPicked: 0,
-        goldPicked: 0,
+        score: 0,
         numOfBoxes: document.querySelector("select").value,
     };
     scoreOutput.value = 0;
@@ -103,6 +120,7 @@ const resetAll = () => {
     resetTds();
     generateRandomBombBoxIndex();
     generateRandomGoldBoxIndex();
+    generateRandomDiamondBoxIndex();
     addEventToTds();
     addEventResetBtn();
 }
