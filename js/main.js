@@ -4,6 +4,7 @@ let table = document.querySelector("table");
 let boxDimension = document.querySelector("select");
 let scoreOutput = document.querySelector("#score");
 let lifeLeftOutput = document.querySelector("#lifeleft");
+let gameStatusDiv = document.querySelector('#game-status');
 
 let gameInfo = {
     randomBombBoxIndex: [],
@@ -12,6 +13,7 @@ let gameInfo = {
     bombPicked: 0,
     score: 0,
     numOfBoxes: 8,
+    gameover: false,
 };
 
 const generateBoxes = () => {
@@ -59,33 +61,40 @@ const generateRandomDiamondBoxIndex = () => {
 
 const addEventToTds = () => {
     tds.forEach((element, index) => {
-    element.addEventListener("click", ()=>{
-        if(gameInfo.randomBombBoxIndex.includes(index)){
-            element.classList.add("bomb");
-            gameInfo.bombPicked++; 
-            lifeLeftOutput.value = 3-gameInfo.bombPicked;
-        }else if(gameInfo.randomGoldBoxIndex.includes(index)){
-            element.classList.add("gold");
-            gameInfo.score++;
-            scoreOutput.value = gameInfo.score;
-        }else if(gameInfo.randomDiamondBoxIndex.includes(index)){
-            element.classList.add("diamond");
-            gameInfo.score+=3;
-            scoreOutput.value = gameInfo.score;
-        }else{
-            element.classList.add("soil");
-        }
-        if(gameInfo.bombPicked === 3){
-            tds.forEach((element, index) => {
-                element.className = "";
-                element.classList.add("bomb");
-            });
-            setTimeout(() => {
-                alert("Boom! Game Over!");
-            },1);
-        }
+        element.addEventListener("click", ()=>{
+            if(gameInfo.gameover === false){
+                if(gameInfo.randomBombBoxIndex.includes(index)){
+                    element.classList.add("bomb");
+                    gameInfo.bombPicked++; 
+                    lifeLeftOutput.value = 3-gameInfo.bombPicked;
+                }else if(gameInfo.randomGoldBoxIndex.includes(index)){
+                    element.classList.add("gold");
+                    gameInfo.score++;
+                    scoreOutput.value = gameInfo.score;
+                }else if(gameInfo.randomDiamondBoxIndex.includes(index)){
+                    element.classList.add("diamond");
+                    gameInfo.score+=3;
+                    scoreOutput.value = gameInfo.score;
+                }else{
+                    element.classList.add("soil");
+                }
+            }
+            if(gameInfo.bombPicked === 3){
+                tds.forEach((element, index) => {
+                    element.className = "";
+                    element.classList.add("bomb");
+                    let elem = document.querySelector('.temp');
+                    if (elem!==null) elem.remove();
+                    let p = document.createElement('p');
+                    p.textContent = `Your final score is ${gameInfo.score}`;
+                    p.className = 'temp';
+                    gameStatusDiv.append(p);
+                    gameStatusDiv.style.display = 'block';
+                    gameInfo.gameover = true;
+                })
+            }
+        })
     })
-    });
 }
 
 const addEventResetBtn = () => {
@@ -109,9 +118,11 @@ const resetGameInfo = ()=> {
         bombPicked: 0,
         score: 0,
         numOfBoxes: document.querySelector("select").value,
+        gameover: false,
     };
     scoreOutput.value = 0;
     lifeLeftOutput.value = 3;
+    gameStatusDiv.style.display = 'none';
 }
 
 const resetAll = () => {

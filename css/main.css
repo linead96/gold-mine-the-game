@@ -1,5 +1,5 @@
 html, body {
-    background: brown;
+    background: black;
     font-family: 'ZCOOL KuaiLe', Helvetica, sans-serif;
     background-image:  url(../img/bg.jpg);
     background-repeat: no-repeat;
@@ -90,4 +90,11 @@ h1{
     display:flex;
     justify-content: center;
     padding-bottom: 1rem;
+}
+
+#game-status{
+    background-color: rgba(255, 85, 85, 0.8);
+    text-align: center;
+    border-radius: 0.3em;
+    margin-bottom: 0.5em;
 }
